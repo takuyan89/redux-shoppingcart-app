@@ -1,25 +1,23 @@
-import logo from './logo.svg';
-import './App.css';
+import { useSelector, useDispatch } from "react-redux";
+import "./App.css";
+import CartContainer from "./components/CartContainer";
+import Navbar from "./components/Navbar";
+import { useEffect } from "react";
+import { calculateTotal } from "./features/cart/CartSlice";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const dispatch = useDispatch();
+    const { cartItems } = useSelector((state) => state.cart);
+    useEffect(() => {
+        dispatch(calculateTotal());
+    }, [cartItems]);
+
+    return (
+        <main>
+            <Navbar />
+            <CartContainer />
+        </main>
+    );
 }
 
 export default App;
